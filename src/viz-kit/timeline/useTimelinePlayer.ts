@@ -17,7 +17,7 @@ export interface TimelinePlayer {
   setFrame: (frame: number) => void;
 }
 
-const DEFAULT_FPS = 1000 / 1200;
+const DEFAULT_FPS = 1000 / 500;
 const MAX_STEPS_PER_TICK = 5;
 
 export function useTimelinePlayer({

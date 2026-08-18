@@ -1,0 +1,103 @@
+.normalize-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  font-size: 0.95em;
+  color: var(--color-text, #333);
+  cursor: pointer;
+}
+
+.normalize-toggle input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--color-accent, #667eea);
+  cursor: pointer;
+}
+
+.prix-chart-container {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  height: 380px;
+  margin-bottom: 16px;
+}
+
+.prix-legend {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px 20px;
+  margin-bottom: 20px;
+}
+
+.prix-legend .viz-legend-items {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 24px;
+}
+
+.prix-legend .viz-legend-label {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  flex: none;
+}
+
+.prix-tooltip-date {
+  font-weight: bold;
+  margin-bottom: 4px;
+  color: var(--color-text, #333);
+}
+
+.prix-tooltip-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.prix-tooltip-swatch {
+  flex-shrink: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.prix-tooltip-label {
+  color: #555;
+}
+
+.prix-tooltip-value {
+  margin-left: auto;
+  padding-left: 10px;
+  font-weight: 600;
+  color: var(--color-text, #333);
+}
+
+@media (max-width: 768px) {
+  .prix-chart-container {
+    height: 280px;
+    padding: 12px;
+  }
+}
+
+/* Reel mode: bigger chart, bigger toggle/legend text. */
+.viz-frame--reel .prix-chart-container {
+  height: 1050px;
+}
+
+.viz-frame--reel .normalize-toggle {
+  font-size: 1.6em;
+  margin-bottom: 20px;
+}
+
+.viz-frame--reel .prix-legend .viz-legend-label {
+  font-size: 1.3em;
+}
+
+.viz-frame--reel .prix-legend .viz-legend-color {
+  width: 22px;
+  height: 22px;
+}
