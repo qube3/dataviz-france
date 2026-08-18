@@ -34,3 +34,18 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+/* Reel mode: the stage is much larger and often viewed on a phone screen,
+   so the legend needs to read at a glance. */
+.viz-frame--reel .viz-legend-items {
+  gap: 16px;
+}
+
+.viz-frame--reel .viz-legend-color {
+  width: 26px;
+  height: 26px;
+}
+
+.viz-frame--reel .viz-legend-label {
+  font-size: 1.5em;
+}

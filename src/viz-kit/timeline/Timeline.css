@@ -96,3 +96,23 @@
   font-size: 0.8em;
   color: #666;
 }
+
+/* Reel mode: the stage is much larger and often viewed on a phone screen,
+   so the timeline needs to read at a glance. */
+.viz-frame--reel .viz-timeline {
+  padding: 24px 30px;
+}
+
+.viz-frame--reel .viz-timeline .year-value {
+  font-size: 2.2em;
+}
+
+.viz-frame--reel .viz-timeline .slider-labels {
+  font-size: 1.3em;
+}
+
+.viz-frame--reel .viz-timeline .play-pause-btn {
+  width: 48px;
+  height: 48px;
+  font-size: 1.3em;
+}

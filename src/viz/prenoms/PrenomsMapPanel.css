@@ -14,6 +14,13 @@
   font-size: 1.2em;
 }
 
+/* Reel mode: the stage is much larger than a web panel, and the legend/timeline
+   text is scaled up for it too — the title needs to keep pace or it reads as
+   the one undersized element on the page. */
+.viz-frame--reel .prenoms-panel h2 {
+  font-size: 2em;
+}
+
 .prenoms-panel-map-container {
   flex: 3 1 0;
   min-width: 0;
@@ -34,9 +41,10 @@
   padding: 15px;
   border-left: 1px solid #eee;
   /* Fixed to the map's height so the card never grows/shrinks with the
-     number of names in the legend; anything past that is cut off. */
+     number of names in the legend; anything past that scrolls instead. */
   max-height: 310px;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 @media (max-width: 768px) {

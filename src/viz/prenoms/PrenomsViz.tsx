@@ -33,20 +33,20 @@ export function PrenomsViz({ mode }: VizViewProps): ReactNode {
       <>
         <div className={`prenoms-panels prenoms-panels--${mode}`}>
           <PrenomsMapPanel
-            title="👨 Prénoms masculins"
-            features={features}
-            colorFor={male.colorFor}
-            tooltipFor={male.tooltipFor}
-            legendEntries={male.legendEntries}
-            ariaLabel="Carte du prénom masculin le plus donné par département"
-          />
-          <PrenomsMapPanel
             title="👩 Prénoms féminins"
             features={features}
             colorFor={female.colorFor}
             tooltipFor={female.tooltipFor}
             legendEntries={female.legendEntries}
             ariaLabel="Carte du prénom féminin le plus donné par département"
+          />
+          <PrenomsMapPanel
+            title="👨 Prénoms masculins"
+            features={features}
+            colorFor={male.colorFor}
+            tooltipFor={male.tooltipFor}
+            legendEntries={male.legendEntries}
+            ariaLabel="Carte du prénom masculin le plus donné par département"
           />
         </div>
 
