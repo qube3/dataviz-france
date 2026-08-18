@@ -1,0 +1,29 @@
+.prenoms-panels {
+  display: grid;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.prenoms-panels--web {
+  grid-template-columns: 1fr 1fr;
+}
+
+.prenoms-panels--reel {
+  grid-template-columns: 1fr;
+}
+
+/* Stacked reel layout gets a much taller map than the web grid, since the
+   1080x1920 stage has plenty of vertical room to spend. */
+.prenoms-panels--reel .prenoms-panel-map {
+  height: 560px;
+}
+
+.prenoms-panels--reel .prenoms-panel-legend {
+  max-height: 590px;
+}
+
+@media (max-width: 1024px) {
+  .prenoms-panels--web {
+    grid-template-columns: 1fr;
+  }
+}

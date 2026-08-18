@@ -1,0 +1,49 @@
+.viz-frame {
+  display: flex;
+  flex-direction: column;
+}
+
+.viz-frame-header {
+  text-align: center;
+  margin-bottom: 24px;
+  padding: 24px 20px;
+  background: linear-gradient(135deg, var(--color-accent, #667eea) 0%, var(--color-accent-2, #764ba2) 100%);
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.viz-frame-header h1 {
+  font-size: 1.9em;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.viz-frame-header p {
+  font-size: 1.05em;
+  opacity: 0.95;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.viz-frame-footer {
+  text-align: center;
+  padding: 20px;
+  color: #999;
+  border-top: 1px solid #eee;
+  margin-top: 24px;
+  font-size: 0.9em;
+}
+
+/* Reel mode: bigger, vertical-video-friendly title, no footer border. */
+.viz-frame--reel .viz-frame-header h1 {
+  font-size: 2.6em;
+}
+
+.viz-frame--reel .viz-frame-header p {
+  font-size: 1.2em;
+}
+
+.viz-frame--reel .viz-frame-footer {
+  border-top: none;
+}

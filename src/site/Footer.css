@@ -1,0 +1,8 @@
+.site-footer {
+  text-align: center;
+  padding: var(--space-md);
+  color: var(--color-muted);
+  border-top: 1px solid #eee;
+  margin-top: var(--space-lg);
+  font-size: 0.9em;
+}

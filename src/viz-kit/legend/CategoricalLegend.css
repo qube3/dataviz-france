@@ -1,0 +1,36 @@
+.viz-legend-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.viz-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.viz-legend-item:hover {
+  background-color: #f5f5f5;
+}
+
+.viz-legend-color {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid #999;
+}
+
+.viz-legend-label {
+  font-size: 0.72em;
+  color: #333;
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

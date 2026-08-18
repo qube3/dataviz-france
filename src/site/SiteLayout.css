@@ -1,0 +1,18 @@
+.site-container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.site-main {
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .site-container {
+    padding: var(--space-sm);
+  }
+}

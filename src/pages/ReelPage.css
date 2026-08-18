@@ -1,0 +1,10 @@
+.reel-stage {
+  width: 1080px;
+  height: 1920px;
+  overflow: hidden;
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: var(--color-bg);
+}

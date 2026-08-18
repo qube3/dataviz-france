@@ -1,0 +1,10 @@
+.site-header {
+  padding: var(--space-md) 0;
+}
+
+.site-brand {
+  font-size: 1.4em;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--color-accent);
+}
