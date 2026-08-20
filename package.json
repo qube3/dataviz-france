@@ -10,6 +10,7 @@
     "preview": "vite preview",
     "data:geo": "python3 tools/fetch_geo.py && mapshaper data/raw/departements.geojson -simplify 6% keep-shapes -o format=topojson public/data/geo/fr-departements.topo.json",
     "data:prenoms": "python3 tools/prepare_prenoms.py",
+    "data:prenoms-top5": "python3 tools/prepare_prenoms_top5.py",
     "data:prix": "python3 tools/prepare_prix.py",
     "reel": ".venv/bin/python tools/make_reel.py"
   },

@@ -1,8 +1,8 @@
 import { useMemo, useState, type MouseEvent, type ReactNode } from 'react';
-import { scaleLinear } from 'd3-scale';
+import { scaleLinear, scaleLog } from 'd3-scale';
 import { line } from 'd3-shape';
 import { useResizeObserver } from '../map/useResizeObserver';
-import { yearTicks } from './ticks';
+import { yearTicks, logTicks } from './ticks';
 import './LineChart.css';
 
 export interface LineChartSeries {
@@ -16,7 +16,11 @@ export interface LineChartProps {
   xLabels: string[];
   /** Reveal each series only through this index; omit to draw the full series statically. */
   currentIndex?: number;
+  /** Y-axis scale. Values <= 0 are treated as gaps under 'log' (log(0) is undefined). Defaults to 'linear'. */
+  scaleType?: 'linear' | 'log';
   yFormat?: (v: number) => string;
+  /** X-axis tick indices; omit to derive them from "YYYY-MM" xLabels via yearTicks. */
+  xTickIndices?: number[];
   /** Rendered at each series' current (last revealed, non-null) point. */
   markerFor?: (seriesId: string) => ReactNode;
   /** Floating tooltip content for the hovered index. Omit to disable hover entirely. */
@@ -32,7 +36,9 @@ export function LineChart({
   series,
   xLabels,
   currentIndex,
+  scaleType = 'linear',
   yFormat,
+  xTickIndices,
   markerFor,
   renderTooltip,
   ariaLabel,
@@ -54,6 +60,15 @@ export function LineChart({
   // Domain is computed once from the full, unsliced series so the axis
   // stays fixed while a progressive reveal grows the line - no rescale jumps.
   const yScale = useMemo(() => {
+    if (scaleType === 'log') {
+      const values = series.flatMap((s) => s.points.filter((v): v is number => v !== null && v > 0));
+      const min = values.length ? Math.min(...values) : 1;
+      const max = values.length ? Math.max(...values) : 10;
+      return scaleLog()
+        .domain([min / 1.2, max * 1.2])
+        .range([innerHeight, 0]);
+    }
+
     const values = series.flatMap((s) => s.points.filter((v): v is number => v !== null));
     const min = values.length ? Math.min(...values, 0) : 0;
     const max = values.length ? Math.max(...values) : 1;
@@ -61,7 +76,7 @@ export function LineChart({
     return scaleLinear()
       .domain([Math.max(min - padding, 0), max + padding])
       .range([innerHeight, 0]);
-  }, [series, innerHeight]);
+  }, [series, innerHeight, scaleType]);
 
   const lineGenerator = useMemo(
     () =>
@@ -73,8 +88,14 @@ export function LineChart({
   );
 
   const lastIndex = currentIndex ?? xLabels.length - 1;
-  const xTicks = useMemo(() => yearTicks(xLabels), [xLabels]);
-  const yTicks = useMemo(() => yScale.ticks(5), [yScale]);
+  const xTicks = useMemo(() => xTickIndices ?? yearTicks(xLabels), [xTickIndices, xLabels]);
+  const yTicks = useMemo(() => {
+    if (scaleType === 'log') {
+      const [dMin, dMax] = yScale.domain();
+      return logTicks(dMin, dMax);
+    }
+    return yScale.ticks(5);
+  }, [yScale, scaleType]);
 
   const handleHover = (e: MouseEvent<SVGRectElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();

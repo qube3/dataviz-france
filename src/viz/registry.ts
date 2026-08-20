@@ -1,12 +1,17 @@
 import { lazy } from 'react';
 import type { VizDefinition } from './types';
 import { prenomsMeta } from './prenoms/meta';
+import { prenomsTop5Meta } from './prenoms-top5/meta';
 import { prixAlimentairesMeta } from './prix-alimentaires/meta';
 
 export const VIZ: VizDefinition[] = [
   {
     ...prenomsMeta,
     Component: lazy(() => import('./prenoms/PrenomsViz').then((m) => ({ default: m.PrenomsViz }))),
+  },
+  {
+    ...prenomsTop5Meta,
+    Component: lazy(() => import('./prenoms-top5/PrenomsTop5Viz').then((m) => ({ default: m.PrenomsTop5Viz }))),
   },
   {
     ...prixAlimentairesMeta,
