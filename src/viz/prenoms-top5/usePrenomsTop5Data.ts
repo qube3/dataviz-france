@@ -3,8 +3,9 @@ import { useJsonResource } from '../../viz-kit/data/useJsonResource';
 import { colorForIndex } from '../../viz-kit/color/palette';
 
 export type Gender = '1' | '2';
+export type RankMode = 'all-time' | 'rolling';
 
-interface Top5NameEntry {
+interface CandidateEntry {
   name: string;
   total: number;
   values: number[];
@@ -12,7 +13,10 @@ interface Top5NameEntry {
 
 interface PrenomsTop5Dataset {
   years: [number, number];
-  top5: Record<Gender, Top5NameEntry[]>;
+  // Every name that was ever in the all-time top 5 or a rolling 5-year-window
+  // top 5, ordered by all-time total (descending) - a superset the frontend
+  // ranks either way from, so a name keeps the same color in both modes.
+  candidates: Record<Gender, CandidateEntry[]>;
 }
 
 export interface Top5Item {
@@ -20,6 +24,21 @@ export interface Top5Item {
   label: string;
   color: string;
   values: number[];
+}
+
+const TOP_N = 5;
+const ROLLING_WINDOW = 5;
+
+/** The top 5 candidates by raw count summed over the trailing `ROLLING_WINDOW` years ending at `frame`. */
+export function rollingTop5(candidates: Top5Item[], frame: number): Top5Item[] {
+  const start = Math.max(0, frame - ROLLING_WINDOW + 1);
+  return [...candidates]
+    .sort((a, b) => {
+      const scoreA = a.values.slice(start, frame + 1).reduce((sum, v) => sum + v, 0);
+      const scoreB = b.values.slice(start, frame + 1).reduce((sum, v) => sum + v, 0);
+      return scoreB - scoreA;
+    })
+    .slice(0, TOP_N);
 }
 
 export function usePrenomsTop5Data() {
@@ -34,9 +53,10 @@ export function usePrenomsTop5Data() {
   const frameCount = years.length;
   const labelAt = useCallback((frame: number) => years[frame] ?? '', [years]);
 
-  const itemsFor = useCallback(
+  /** All candidates for a gender, ordered by all-time total - i.e. its first 5 are the all-time top 5. */
+  const candidatesFor = useCallback(
     (gender: Gender, colorOffset = 0): Top5Item[] =>
-      (data?.top5[gender] ?? []).map((entry, i) => ({
+      (data?.candidates[gender] ?? []).map((entry, i) => ({
         id: `${gender}-${entry.name}`,
         label: entry.name,
         color: colorForIndex(i + colorOffset),
@@ -45,5 +65,5 @@ export function usePrenomsTop5Data() {
     [data],
   );
 
-  return { loading, error, years, frameCount, labelAt, itemsFor };
+  return { loading, error, years, frameCount, labelAt, candidatesFor };
 }

@@ -7,7 +7,7 @@ import { LineChart, type LineChartSeries } from '../../viz-kit/chart/LineChart';
 import { evenYearTicks } from '../../viz-kit/chart/ticks';
 import { useReelDriver, type ReelDriver } from '../../reel/reelDriver';
 import type { VizViewProps } from '../types';
-import { usePrenomsTop5Data, type Top5Item } from './usePrenomsTop5Data';
+import { usePrenomsTop5Data, rollingTop5, type Top5Item, type RankMode } from './usePrenomsTop5Data';
 import { prenomsTop5Meta } from './meta';
 import './PrenomsTop5Viz.css';
 
@@ -83,12 +83,21 @@ function GenderPanel({
 }
 
 export function PrenomsTop5Viz({ mode }: VizViewProps): ReactNode {
-  const { loading, error, years, frameCount, labelAt, itemsFor } = usePrenomsTop5Data();
+  const { loading, error, years, frameCount, labelAt, candidatesFor } = usePrenomsTop5Data();
   const player = useTimelinePlayer({ frameCount, fps: 8 });
   const [scaleType, setScaleType] = useState<'linear' | 'log'>('linear');
+  const [rankMode, setRankMode] = useState<RankMode>('all-time');
 
-  const femaleItems = itemsFor('2', 0);
-  const maleItems = itemsFor('1', 6);
+  const femaleCandidates = candidatesFor('2', 0);
+  const maleCandidates = candidatesFor('1', 6);
+  const femaleItems = useMemo(
+    () => (rankMode === 'rolling' ? rollingTop5(femaleCandidates, player.frame) : femaleCandidates.slice(0, 5)),
+    [femaleCandidates, rankMode, player.frame],
+  );
+  const maleItems = useMemo(
+    () => (rankMode === 'rolling' ? rollingTop5(maleCandidates, player.frame) : maleCandidates.slice(0, 5)),
+    [maleCandidates, rankMode, player.frame],
+  );
   const xTickIndices = useMemo(() => evenYearTicks(years), [years]);
 
   const ready = !loading && !error && frameCount > 0;
@@ -106,14 +115,25 @@ export function PrenomsTop5Viz({ mode }: VizViewProps): ReactNode {
   } else {
     content = (
       <>
-        <label className="scale-toggle">
-          <input
-            type="checkbox"
-            checked={scaleType === 'log'}
-            onChange={(e) => setScaleType(e.target.checked ? 'log' : 'linear')}
-          />
-          Échelle logarithmique
-        </label>
+        <div className="top5-toggles">
+          <label className="scale-toggle">
+            <input
+              type="checkbox"
+              checked={scaleType === 'log'}
+              onChange={(e) => setScaleType(e.target.checked ? 'log' : 'linear')}
+            />
+            Échelle logarithmique
+          </label>
+
+          <label className="scale-toggle">
+            <input
+              type="checkbox"
+              checked={rankMode === 'rolling'}
+              onChange={(e) => setRankMode(e.target.checked ? 'rolling' : 'all-time')}
+            />
+            Top 5 glissant (fenêtre de 5 ans), plutôt que le top 5 de tous les temps
+          </label>
+        </div>
 
         <div className={`top5-charts top5-charts--${mode}`}>
           <GenderPanel

@@ -1,8 +1,10 @@
 """
 Data preprocessing for the "Top 5 des prénoms" visualization.
 Loads data/raw/prenoms-2025-dpt.csv, aggregates department-level counts into
-national yearly counts per name, and exports the all-time top 5 names per
-gender (by total births 1900-2025) as a columnar JSON for the browser.
+national yearly counts per name, and exports every name that was ever in the
+all-time top 5 or in a rolling 5-year-window top 5 (at any point 1900-2025),
+per gender, as a columnar JSON for the browser. The frontend picks either
+ranking client-side from these raw yearly counts.
 """
 
 import json
@@ -16,6 +18,7 @@ OUTPUT_JSON = Path('public/data/prenoms/prenoms-top5.json')
 # INSEE aggregates every rare name under this label; not an actual name.
 RARE_BUCKET = '_PRENOMS_RARES'
 TOP_N = 5
+ROLLING_WINDOW = 5
 
 
 def prepare_data():
@@ -37,22 +40,36 @@ def prepare_data():
 
     print(f"years {year_lo}-{year_hi}, genders {genders}")
 
-    top5 = {}
+    candidates = {}
     for gender in genders:
         gender_df = national[national['sexe'] == gender]
-        totals = gender_df.groupby('prenoms')['nombre'].sum().sort_values(ascending=False)
-        top_names = totals.head(TOP_N).index.tolist()
-        print(f"gender {gender} top {TOP_N}: {top_names}")
 
-        entries = []
-        for name in top_names:
-            by_year = gender_df[gender_df['prenoms'] == name].set_index('année')['nombre']
-            values = [int(by_year.get(y, 0)) for y in years]
-            entries.append({'name': name, 'total': int(totals[name]), 'values': values})
+        # name x year matrix of raw annual counts, 0-filled.
+        pivot = gender_df.pivot_table(index='prenoms', columns='année', values='nombre', fill_value=0)
+        pivot = pivot.reindex(columns=years, fill_value=0)
 
-        top5[str(gender)] = entries
+        totals = pivot.sum(axis=1).sort_values(ascending=False)
 
-    data = {'years': [year_lo, year_hi], 'top5': top5}
+        # Trailing 5-year-window sum per name per year, to find every name
+        # that was ever a rolling top 5 - not just the all-time top 5, which
+        # would miss recent names too young to have amassed a big lifetime
+        # total (e.g. a name only fashionable since 2010).
+        rolling = pivot.T.rolling(window=ROLLING_WINDOW, min_periods=1).sum().T
+
+        candidate_names = set(totals.head(TOP_N).index)
+        for year in years:
+            candidate_names.update(rolling[year].sort_values(ascending=False).head(TOP_N).index)
+
+        ordered_names = [n for n in totals.index if n in candidate_names]
+        print(f"gender {gender}: {len(ordered_names)} candidate names")
+
+        entries = [
+            {'name': name, 'total': int(totals[name]), 'values': pivot.loc[name, years].astype(int).tolist()}
+            for name in ordered_names
+        ]
+        candidates[str(gender)] = entries
+
+    data = {'years': [year_lo, year_hi], 'candidates': candidates}
 
     OUTPUT_JSON.parent.mkdir(parents=True, exist_ok=True)
     with open(OUTPUT_JSON, 'w', encoding='utf-8') as f:

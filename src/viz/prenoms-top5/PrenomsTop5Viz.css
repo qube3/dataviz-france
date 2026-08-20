@@ -1,8 +1,14 @@
+.top5-toggles {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 8px 24px;
+  margin-bottom: 16px;
+}
+
 .scale-toggle {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 16px;
   font-size: 0.95em;
   color: var(--color-text, #333);
   cursor: pointer;
