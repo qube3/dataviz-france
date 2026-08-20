@@ -1,0 +1,61 @@
+.viz-stackedarea {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.viz-stackedarea .gridline {
+  stroke: #eee;
+  stroke-width: 1;
+}
+
+.viz-stackedarea .axis-label {
+  font-size: 11px;
+  fill: #999;
+}
+
+.viz-stackedarea .area-segment {
+  stroke: white;
+  stroke-width: 1px;
+}
+
+.viz-stackedarea .hover-guide {
+  stroke: rgba(255, 255, 255, 0.8);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+  pointer-events: none;
+}
+
+.viz-stackedarea .hover-dot {
+  stroke: white;
+  stroke-width: 1.5px;
+  pointer-events: none;
+}
+
+.viz-stackedarea .hover-overlay {
+  cursor: crosshair;
+}
+
+.stackedarea-tooltip {
+  position: absolute;
+  transform: translateX(-50%);
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+  padding: 8px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  max-height: 260px;
+  overflow-y: auto;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Reel mode: the stage is much larger than a web panel. */
+.viz-frame--reel .viz-stackedarea .axis-label {
+  font-size: 18px;
+}
+
+.viz-frame--reel .viz-stackedarea .area-segment {
+  stroke-width: 2px;
+}

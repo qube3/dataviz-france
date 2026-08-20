@@ -3,6 +3,7 @@ import type { VizDefinition } from './types';
 import { prenomsMeta } from './prenoms/meta';
 import { prenomsTop5Meta } from './prenoms-top5/meta';
 import { prixAlimentairesMeta } from './prix-alimentaires/meta';
+import { doublettesMeta } from './doublettes/meta';
 
 export const VIZ: VizDefinition[] = [
   {
@@ -18,6 +19,10 @@ export const VIZ: VizDefinition[] = [
     Component: lazy(() =>
       import('./prix-alimentaires/PrixAlimentairesViz').then((m) => ({ default: m.PrixAlimentairesViz })),
     ),
+  },
+  {
+    ...doublettesMeta,
+    Component: lazy(() => import('./doublettes/DoublettesViz').then((m) => ({ default: m.DoublettesViz }))),
   },
 ];
 

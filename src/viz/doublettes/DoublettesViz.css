@@ -1,0 +1,115 @@
+.doublettes-charts {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.doublettes-panel {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: stretch;
+  background: white;
+  border-radius: 10px;
+  box-shadow: var(--shadow, 0 2px 8px rgba(0, 0, 0, 0.1));
+  overflow: hidden;
+}
+
+.doublettes-panel h2 {
+  flex: 1 0 100%;
+  padding: 10px 15px 0;
+  font-size: 1.2em;
+}
+
+.doublettes-chart-container {
+  flex: 3 1 0;
+  min-width: 0;
+  padding: 15px;
+  height: 320px;
+}
+
+.doublettes-legend {
+  flex: 1 1 260px;
+  padding: 15px;
+  border-left: 1px solid var(--color-bg-tint, #eee);
+  max-height: 350px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.doublettes-legend .viz-legend-label {
+  font-size: 0.75em;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+}
+
+.doublettes-tooltip {
+  max-width: 320px;
+}
+
+.doublettes-tooltip-date {
+  font-weight: bold;
+  margin-bottom: 4px;
+  color: var(--color-text, #333);
+}
+
+.doublettes-tooltip-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.doublettes-tooltip-swatch {
+  flex-shrink: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.doublettes-tooltip-label {
+  color: #555;
+  white-space: normal;
+}
+
+.doublettes-tooltip-value {
+  margin-left: auto;
+  padding-left: 10px;
+  flex-shrink: 0;
+  font-weight: 600;
+  color: var(--color-text, #333);
+}
+
+@media (max-width: 768px) {
+  .doublettes-panel h2 {
+    font-size: 1em;
+    padding: 8px 10px 0;
+  }
+
+  .doublettes-chart-container {
+    padding: 8px;
+    height: 240px;
+  }
+
+  .doublettes-legend {
+    flex-basis: 100%;
+    border-left: none;
+    border-top: 1px solid var(--color-bg-tint, #eee);
+    padding: 8px;
+    max-height: 220px;
+  }
+}
+
+/* Reel mode: the stage is much larger and vertical. */
+.doublettes-charts--reel .doublettes-chart-container {
+  height: 620px;
+}
+
+.doublettes-charts--reel .doublettes-legend {
+  max-height: 650px;
+}
+
+.doublettes-charts--reel .doublettes-panel h2 {
+  font-size: 2em;
+  padding: 16px 20px 0;
+}
