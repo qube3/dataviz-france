@@ -1,0 +1,47 @@
+/* Coolors Exported Palette - https://coolors.co/0a2dd3-000000-7f95d1-ffebe7-ff6b6c */
+
+/* CSS HEX */
+--persian-blue: #0a2dd3ff;
+--black: #000000ff;
+--wisteria-blue: #7f95d1ff;
+--soft-blush: #ffebe7ff;
+--grapefruit-pink: #ff6b6cff;
+
+/* CSS HSL */
+--persian-blue: hsla(230, 91%, 43%, 1);
+--black: hsla(0, 0%, 0%, 1);
+--wisteria-blue: hsla(224, 47%, 66%, 1);
+--soft-blush: hsla(10, 100%, 95%, 1);
+--grapefruit-pink: hsla(360, 100%, 71%, 1);
+
+/* SCSS HEX */
+$persian-blue: #0a2dd3ff;
+$black: #000000ff;
+$wisteria-blue: #7f95d1ff;
+$soft-blush: #ffebe7ff;
+$grapefruit-pink: #ff6b6cff;
+
+/* SCSS HSL */
+$persian-blue: hsla(230, 91%, 43%, 1);
+$black: hsla(0, 0%, 0%, 1);
+$wisteria-blue: hsla(224, 47%, 66%, 1);
+$soft-blush: hsla(10, 100%, 95%, 1);
+$grapefruit-pink: hsla(360, 100%, 71%, 1);
+
+/* SCSS RGB */
+$persian-blue: rgba(10, 45, 211, 1);
+$black: rgba(0, 0, 0, 1);
+$wisteria-blue: rgba(127, 149, 209, 1);
+$soft-blush: rgba(255, 235, 231, 1);
+$grapefruit-pink: rgba(255, 107, 108, 1);
+
+/* SCSS Gradient */
+$gradient-top: linear-gradient(0deg, #0a2dd3ff, #000000ff, #7f95d1ff, #ffebe7ff, #ff6b6cff);
+$gradient-right: linear-gradient(90deg, #0a2dd3ff, #000000ff, #7f95d1ff, #ffebe7ff, #ff6b6cff);
+$gradient-bottom: linear-gradient(180deg, #0a2dd3ff, #000000ff, #7f95d1ff, #ffebe7ff, #ff6b6cff);
+$gradient-left: linear-gradient(270deg, #0a2dd3ff, #000000ff, #7f95d1ff, #ffebe7ff, #ff6b6cff);
+$gradient-top-right: linear-gradient(45deg, #0a2dd3ff, #000000ff, #7f95d1ff, #ffebe7ff, #ff6b6cff);
+$gradient-bottom-right: linear-gradient(135deg, #0a2dd3ff, #000000ff, #7f95d1ff, #ffebe7ff, #ff6b6cff);
+$gradient-top-left: linear-gradient(225deg, #0a2dd3ff, #000000ff, #7f95d1ff, #ffebe7ff, #ff6b6cff);
+$gradient-bottom-left: linear-gradient(315deg, #0a2dd3ff, #000000ff, #7f95d1ff, #ffebe7ff, #ff6b6cff);
+$gradient-radial: radial-gradient(#0a2dd3ff, #000000ff, #7f95d1ff, #ffebe7ff, #ff6b6cff);

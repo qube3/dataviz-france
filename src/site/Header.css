@@ -3,8 +3,16 @@
 }
 
 .site-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-size: 1.4em;
   font-weight: 700;
   text-decoration: none;
   color: var(--color-accent);
+}
+
+.site-logo {
+  display: block;
+  flex-shrink: 0;
 }

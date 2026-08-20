@@ -22,7 +22,10 @@ export function HomePage(): ReactNode {
   return (
     <div className="home-page">
       <section className="home-hero">
-        <h1>Data Viz France</h1>
+        <div className="home-hero-title">
+          <img src="/logo.svg" alt="" className="home-hero-logo" width={64} height={64} />
+          <h1>Data Viz France</h1>
+        </div>
         <p>Des visualisations interactives sur les données publiques françaises.</p>
       </section>
 

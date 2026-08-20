@@ -2,23 +2,36 @@
   text-align: center;
   margin-bottom: var(--space-lg);
   padding: 30px 20px;
-  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-2) 100%);
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-soft) 55%, var(--color-accent-2) 100%);
   color: white;
   border-radius: var(--radius);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow);
+}
+
+.home-hero-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+.home-hero-logo {
+  display: block;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
 .home-hero h1 {
   font-size: 2.2em;
-  margin-bottom: 10px;
   font-weight: 700;
 }
 
 .home-hero p {
+  margin-top: 10px;
   font-size: 1.05em;
   opacity: 0.95;
   max-width: 600px;
-  margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .topic-filter {
@@ -29,7 +42,7 @@
 }
 
 .topic-filter button {
-  border: 1px solid #ddd;
+  border: 1px solid var(--color-accent-soft);
   background: white;
   border-radius: 999px;
   padding: 6px 16px;
@@ -51,6 +64,7 @@
 .topic-section h2 {
   font-size: 1.3em;
   margin-bottom: var(--space-sm);
+  color: var(--color-accent-dark);
 }
 
 .topic-empty {
@@ -67,6 +81,7 @@
 .viz-card {
   display: block;
   background: white;
+  border: 1px solid var(--color-bg-tint);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   padding: var(--space-md);
@@ -74,12 +89,14 @@
   color: var(--color-text);
   transition:
     transform 0.2s ease,
-    box-shadow 0.2s ease;
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .viz-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  border-color: var(--color-accent-2);
+  box-shadow: 0 4px 14px rgba(10, 45, 211, 0.18);
 }
 
 .viz-card h3 {
@@ -90,5 +107,5 @@
 
 .viz-card p {
   font-size: 0.9em;
-  color: #666;
+  color: var(--color-muted);
 }
