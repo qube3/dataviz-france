@@ -28,9 +28,17 @@ export interface LineChartProps {
   ariaLabel: string;
 }
 
-// left is generous enough to fit y-axis labels at the larger reel-mode font
-// size (see LineChart.css's .viz-frame--reel override) without clipping.
-const MARGIN = { top: 16, right: 16, bottom: 28, left: 80 };
+const MARGIN_BASE = { top: 16, right: 16, bottom: 28 };
+// left scales with the container: wide enough (up to 80) to fit y-axis
+// labels at the larger reel-mode font size without clipping, but a narrow
+// mobile web chart doesn't need that much reserved space for short labels.
+const MIN_MARGIN_LEFT = 48;
+const MAX_MARGIN_LEFT = 80;
+
+// Minimum pixel gap between adjacent x-axis tick labels so short years
+// ("1998", "2025") don't overlap when a forced first/last tick lands close
+// to its neighboring regular-interval tick.
+const MIN_X_TICK_GAP = 30;
 
 export function LineChart({
   series,
@@ -45,6 +53,11 @@ export function LineChart({
 }: LineChartProps): ReactNode {
   const [containerRef, { width, height }] = useResizeObserver<HTMLDivElement>();
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
+
+  const MARGIN = useMemo(
+    () => ({ ...MARGIN_BASE, left: Math.max(MIN_MARGIN_LEFT, Math.min(MAX_MARGIN_LEFT, width * 0.12)) }),
+    [width],
+  );
 
   const innerWidth = Math.max(width - MARGIN.left - MARGIN.right, 0);
   const innerHeight = Math.max(height - MARGIN.top - MARGIN.bottom, 0);
@@ -88,7 +101,27 @@ export function LineChart({
   );
 
   const lastIndex = currentIndex ?? xLabels.length - 1;
-  const xTicks = useMemo(() => xTickIndices ?? yearTicks(xLabels), [xTickIndices, xLabels]);
+
+  // yearTicks/xTickIndices always force in the first and last index for
+  // labeled endpoints, which can land pixel-close to a regular-interval tick
+  // next to it (e.g. a forced "2026" beside a computed "2025") and overlap.
+  // Thin those out here, in pixel space, since only the rendered xScale
+  // knows the real gap.
+  const xTicks = useMemo(() => {
+    const raw = xTickIndices ?? yearTicks(xLabels);
+    if (raw.length < 3) return raw;
+
+    const last = raw[raw.length - 1];
+    const kept = [raw[0]];
+    for (let i = 1; i < raw.length - 1; i++) {
+      const idx = raw[i];
+      if (xScale(idx) - xScale(kept[kept.length - 1]) >= MIN_X_TICK_GAP && xScale(last) - xScale(idx) >= MIN_X_TICK_GAP) {
+        kept.push(idx);
+      }
+    }
+    if (last !== kept[kept.length - 1]) kept.push(last);
+    return kept;
+  }, [xTickIndices, xLabels, xScale]);
   const yTicks = useMemo(() => {
     if (scaleType === 'log') {
       const [dMin, dMax] = yScale.domain();
