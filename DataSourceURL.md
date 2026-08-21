@@ -8,3 +8,7 @@ https://www.insee.fr/fr/statistiques/series/103157792
 
 ## Doublettes Terminale
 https://www.data.gouv.fr/datasets/effectifs-dans-les-enseignements-de-specialites-en-terminale-generale-1
+
+## Mix production électrique annuelle
+https://www.data.gouv.fr/datasets/production-nationale-annuelle-par-filiere-2012-a-2025
+

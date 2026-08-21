@@ -1,6 +1,6 @@
 import type { ComponentType, LazyExoticComponent } from 'react';
 
-export type VizTopic = 'societe' | 'economie' | 'education' | 'environnement';
+export type VizTopic = 'societe' | 'economie' | 'education' | 'energie';
 
 export interface VizViewProps {
   mode: 'web' | 'reel';

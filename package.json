@@ -13,6 +13,7 @@
     "data:prenoms-top5": "python3 tools/prepare_prenoms_top5.py",
     "data:prix": "python3 tools/prepare_prix.py",
     "data:doublettes": "python3 tools/prepare_doublettes.py",
+    "data:energie": "python3 tools/prepare_energie.py",
     "reel": ".venv/bin/python tools/make_reel.py"
   },
   "dependencies": {

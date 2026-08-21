@@ -8,7 +8,7 @@ const TOPICS: { id: VizTopic; label: string }[] = [
   { id: 'societe', label: 'Société' },
   { id: 'economie', label: 'Économie' },
   { id: 'education', label: 'Éducation' },
-  { id: 'environnement', label: 'Environnement' },
+  { id: 'energie', label: 'Énergie' },
 ];
 
 export function HomePage(): ReactNode {

@@ -4,6 +4,7 @@ import { prenomsMeta } from './prenoms/meta';
 import { prenomsTop5Meta } from './prenoms-top5/meta';
 import { prixAlimentairesMeta } from './prix-alimentaires/meta';
 import { doublettesMeta } from './doublettes/meta';
+import { mixElectriqueMeta } from './mix-electrique/meta';
 
 export const VIZ: VizDefinition[] = [
   {
@@ -23,6 +24,10 @@ export const VIZ: VizDefinition[] = [
   {
     ...doublettesMeta,
     Component: lazy(() => import('./doublettes/DoublettesViz').then((m) => ({ default: m.DoublettesViz }))),
+  },
+  {
+    ...mixElectriqueMeta,
+    Component: lazy(() => import('./mix-electrique/MixElectriqueViz').then((m) => ({ default: m.MixElectriqueViz }))),
   },
 ];
 
