@@ -1,5 +1,7 @@
 # Data Viz France
 
+Live at [datavizfr.netlify.app](https://datavizfr.netlify.app/).
+
 Interactive visualizations of French public data — société, économie, éducation,
 énergie. React 19 + Vite + TypeScript, deployed as a static site on
 Netlify. D3 (`d3-geo`, `d3-color`) is used only as a math library; React owns

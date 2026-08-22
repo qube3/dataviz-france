@@ -5,6 +5,7 @@ import { prenomsTop5Meta } from './prenoms-top5/meta';
 import { prixAlimentairesMeta } from './prix-alimentaires/meta';
 import { doublettesMeta } from './doublettes/meta';
 import { mixElectriqueMeta } from './mix-electrique/meta';
+import { categorieSocioproMeta } from './categorie-sociopro/meta';
 
 export const VIZ: VizDefinition[] = [
   {
@@ -28,6 +29,12 @@ export const VIZ: VizDefinition[] = [
   {
     ...mixElectriqueMeta,
     Component: lazy(() => import('./mix-electrique/MixElectriqueViz').then((m) => ({ default: m.MixElectriqueViz }))),
+  },
+  {
+    ...categorieSocioproMeta,
+    Component: lazy(() =>
+      import('./categorie-sociopro/CategorieSocioproViz').then((m) => ({ default: m.CategorieSocioproViz })),
+    ),
   },
 ];
 

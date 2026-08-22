@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState, type MouseEvent, type ReactNode } from 'react';
+import { useCallback, useLayoutEffect, useMemo, useRef, useState, type MouseEvent, type ReactNode } from 'react';
 import { scaleLinear } from 'd3-scale';
 import { area } from 'd3-shape';
 import { useResizeObserver } from '../map/useResizeObserver';
@@ -34,6 +34,22 @@ const MIN_MARGIN_LEFT = 40;
 const MAX_MARGIN_LEFT = 60;
 const Y_TICKS = [0, 0.25, 0.5, 0.75, 1];
 
+// Gap (px) reserved between two adjacent x-axis labels, on top of their
+// measured text width, before they're considered to collide.
+const TICK_LABEL_GAP_PX = 12;
+// Fallback spacing used for the very first paint, before the actual label
+// width has been measured from the rendered (larger in reel mode) font.
+const FALLBACK_TICK_SPACING_PX = 34;
+const NICE_STEPS = [1, 2, 5, 10, 20, 25, 50, 100];
+
+/** Rounds a raw tick interval up to the next "nice" step (1, 2, 5, 10, 20, ...). */
+function niceStep(raw: number): number {
+  const found = NICE_STEPS.find((s) => s >= raw);
+  if (found !== undefined) return found;
+  const last = NICE_STEPS[NICE_STEPS.length - 1];
+  return last * Math.ceil(raw / last);
+}
+
 export function StackedAreaChart({
   series,
   xLabels,
@@ -43,6 +59,22 @@ export function StackedAreaChart({
 }: StackedAreaChartProps): ReactNode {
   const [containerRef, { width, height }] = useResizeObserver<HTMLDivElement>();
   const [hoverPos, setHoverPos] = useState<number | null>(null);
+  const measureRef = useRef<SVGTextElement>(null);
+  const [tickSpacing, setTickSpacing] = useState(FALLBACK_TICK_SPACING_PX);
+
+  // The longest label sets the worst-case width; measuring the actually
+  // rendered font (11px web, 18px reel, per StackedAreaChart.css) rather than
+  // assuming a fixed size keeps thinning correct in both contexts.
+  const longestLabel = useMemo(
+    () => xLabels.reduce((longest, label) => (label.length > longest.length ? label : longest), ''),
+    [xLabels],
+  );
+
+  useLayoutEffect(() => {
+    const node = measureRef.current;
+    if (!node) return;
+    setTickSpacing(node.getComputedTextLength() + TICK_LABEL_GAP_PX);
+  }, [longestLabel, width]);
 
   const MARGIN = useMemo(
     () => ({ ...MARGIN_BASE, left: Math.max(MIN_MARGIN_LEFT, Math.min(MAX_MARGIN_LEFT, width * 0.12)) }),
@@ -116,6 +148,26 @@ export function StackedAreaChart({
     }));
   }, [points, xScale, realIndexFor]);
 
+  // Thin ticks to whatever density actually fits: at a given container
+  // width, only every Nth label is kept (N rounded to a "nice" step) so
+  // labels never overlap, however many years are revealed. The rightmost
+  // tick - the year the timeline is currently on - is always kept, since
+  // that's the one point the reader most needs labeled as it "unfurls";
+  // any regular-interval tick too close to it is dropped instead of
+  // crowding the edge.
+  const visibleXTicks = useMemo(() => {
+    if (xTicks.length === 0) return xTicks;
+    const lastTick = xTicks[xTicks.length - 1];
+    const maxTicks = Math.max(1, Math.floor(innerWidth / tickSpacing));
+    if (xTicks.length <= maxTicks) return xTicks;
+
+    const step = niceStep(Math.ceil(xTicks.length / maxTicks));
+    const stepped = xTicks
+      .slice(0, -1)
+      .filter((t, i) => i % step === 0 && lastTick.x - t.x >= tickSpacing);
+    return [...stepped, lastTick];
+  }, [xTicks, innerWidth, tickSpacing]);
+
   const handleHover = (e: MouseEvent<SVGRectElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const localX = e.clientX - rect.left;
@@ -143,11 +195,15 @@ export function StackedAreaChart({
 
             {areas.map((a) => a.d && <path key={a.id} d={a.d} className="area-segment" fill={a.color} />)}
 
-            {xTicks.map(({ realIdx, x }) => (
+            {visibleXTicks.map(({ realIdx, x }) => (
               <text key={realIdx} className="axis-label x-label" x={x} y={innerHeight + 20} textAnchor="middle">
                 {xLabels[realIdx]}
               </text>
             ))}
+
+            <text ref={measureRef} className="axis-label x-label" x={-9999} y={-9999} aria-hidden="true">
+              {longestLabel}
+            </text>
 
             {hoverRealIndex !== null && hoverPos !== null && (
               <g className="hover-layer">

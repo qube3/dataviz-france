@@ -86,7 +86,7 @@ export function PrenomsTop5Viz({ mode }: VizViewProps): ReactNode {
   const { loading, error, years, frameCount, labelAt, candidatesFor } = usePrenomsTop5Data();
   const player = useTimelinePlayer({ frameCount, fps: 8 });
   const [scaleType, setScaleType] = useState<'linear' | 'log'>('linear');
-  const [rankMode, setRankMode] = useState<RankMode>('all-time');
+  const [rankMode, setRankMode] = useState<RankMode>('rolling');
 
   const femaleCandidates = candidatesFor('2', 0);
   const maleCandidates = candidatesFor('1', 6);
