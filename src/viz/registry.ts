@@ -6,6 +6,7 @@ import { prixAlimentairesMeta } from './prix-alimentaires/meta';
 import { doublettesMeta } from './doublettes/meta';
 import { mixElectriqueMeta } from './mix-electrique/meta';
 import { categorieSocioproMeta } from './categorie-sociopro/meta';
+import { pyramidePopulationMeta } from './pyramide-population/meta';
 
 export const VIZ: VizDefinition[] = [
   {
@@ -34,6 +35,12 @@ export const VIZ: VizDefinition[] = [
     ...categorieSocioproMeta,
     Component: lazy(() =>
       import('./categorie-sociopro/CategorieSocioproViz').then((m) => ({ default: m.CategorieSocioproViz })),
+    ),
+  },
+  {
+    ...pyramidePopulationMeta,
+    Component: lazy(() =>
+      import('./pyramide-population/PyramidePopulationViz').then((m) => ({ default: m.PyramidePopulationViz })),
     ),
   },
 ];

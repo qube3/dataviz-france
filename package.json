@@ -15,6 +15,7 @@
     "data:doublettes": "python3 tools/prepare_doublettes.py",
     "data:energie": "python3 tools/prepare_energie.py",
     "data:categorie-sociopro": "python3 tools/prepare_categorie_sociopro.py",
+    "data:pyramide": "python3 tools/prepare_pyramide.py",
     "reel": ".venv/bin/python tools/make_reel.py"
   },
   "dependencies": {

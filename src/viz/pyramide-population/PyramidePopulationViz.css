@@ -1,0 +1,90 @@
+.pyramidepopulation-chart-container {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  height: 560px;
+  margin-bottom: 16px;
+}
+
+.pyramidepopulation-legend {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px 20px;
+  margin-bottom: 20px;
+}
+
+.pyramidepopulation-legend .viz-legend-items {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 24px;
+}
+
+.pyramidepopulation-surplus-note {
+  margin: 10px 0 0;
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--color-muted, #666);
+}
+
+.pyramidepopulation-tooltip {
+  min-width: 180px;
+}
+
+.pyramidepopulation-tooltip-title {
+  font-weight: bold;
+  margin-bottom: 4px;
+  color: var(--color-text, #333);
+}
+
+.pyramidepopulation-tooltip-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pyramidepopulation-tooltip-swatch {
+  flex-shrink: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.pyramidepopulation-tooltip-value {
+  margin-left: auto;
+  padding-left: 10px;
+  flex-shrink: 0;
+  font-weight: 600;
+  color: var(--color-text, #333);
+}
+
+.pyramidepopulation-tooltip-surplus {
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: 1px solid #eee;
+  color: var(--color-muted, #666);
+  font-size: 11px;
+}
+
+@media (max-width: 768px) {
+  .pyramidepopulation-chart-container {
+    height: 420px;
+    padding: 12px;
+  }
+}
+
+/* Reel mode: the stage is much larger and vertical. */
+.viz-frame--reel .pyramidepopulation-chart-container {
+  height: 1200px;
+}
+
+.viz-frame--reel .pyramidepopulation-legend .viz-legend-label {
+  font-size: 1.3em;
+}
+
+.viz-frame--reel .pyramidepopulation-legend .viz-legend-color {
+  width: 22px;
+  height: 22px;
+}
